@@ -1,0 +1,74 @@
+{%extends 'base.html'%}
+{% block head %}
+    <title> Gestor de Tareas </title>
+{% endblock %}
+{% block body %}
+    <main class="container p-4">
+        <h1 class="display-4 text-center mt-4 titulo"> App de gestión de tareas </h1>
+        <!-- Card -->
+        <div class ="row">
+        <div class="col-md-4 offset-md-4 my auto">
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-header">
+            <form action="/crear-tarea" method = 'post'>
+                <div class="form-group">
+                    <input type="text" name="contenido_tarea" placeholder="Tarea" class="form-control" autofocus>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    Guardar
+                </button>
+            </form>
+        </div>
+        </div>
+        </div>
+        </div>
+
+    <table class="table">
+        <div class="row mb-3">
+            <div class="col-4 themed-grid-col">
+            <tr class="table__header">
+                {% for header in headings %}
+                <th class="table__cell"> {{ header }}</th>
+                {% endfor %}
+            </tr></div>
+        {% for tarea in tareas %}
+        <td class="table__cell">
+                    <a href="/eliminar-tarea/{{tarea.id}}" style="text-decoration:none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg></a>
+
+                    <a href="/tarea-hecha/{{tarea.id}}" style="text-decoration:none" class="btn btn-sucess btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="green" class="bi bi-check-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z"/>
+                        </svg></a>
+                    <a href="/actualizar-tarea/{{tarea.id}}" style="text-decoration:none" class="btn btn-sucess btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                        </svg></a>
+        </td>
+            <div class="col-4 themed-grid-col">
+                <tr class="table__row">
+                    <td class="table__cell"> <span class="{% if tarea.hecha==true %} tarea_hecha {% endif %}">
+                    {{tarea.contenido}}</span> </td>
+                    <td class="table__cell"> {{ tarea.hecha }} </td>
+                    <td class="table__cell"> {{ tarea.fecha_creada }} </td>
+                    <td class="table__cell"> {{ tarea.fecha_entrega }}
+                        <a href="/actualizar-tarea/{{tarea.id}}" style="text-decoration:none" class="btn btn-sucess btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                            <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                            <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                        </svg>
+                        </a>
+                    </td>
+                </tr></div>
+        {% endfor %}
+        </div>
+    </table>
+    </main>
+{% endblock %}
